@@ -5,7 +5,7 @@ const OrganizationIdLayout = ({children}:{
     children:React.ReactNode
 }) => {
   return (
-    <div>
+    <div className="w-full">
         <OrgControl />
         {children}
     </div>
