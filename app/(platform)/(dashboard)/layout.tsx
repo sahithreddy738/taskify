@@ -5,7 +5,7 @@ const DashBoardLayout = ({children}:{
     children:React.ReactNode
 }) => {
   return (
-    <div>
+    <div className="flex h-full flex-col">
         <NavBar/>
         {children}
     </div>

@@ -11,8 +11,11 @@ import {
 import FormInput from "./form-input";
 import FormButton from "./form-button";
 import { useAction } from "@/hooks/use-action";
-import { createBoard } from "@/actions/create-board/create-board";
+import { createBoard } from "@/actions/create-board/index";
 import { toast } from "sonner";
+import FormPicker from "./form-picker";
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 interface FormPopoverProps {
   children: React.ReactNode;
@@ -27,9 +30,13 @@ const FormPopover = ({
   side,
   sideOffset = 0,
 }: FormPopoverProps) => {
+  const router = useRouter();
+  const ref = useRef<HTMLButtonElement>(null);
   const { execute, fieldErrors } = useAction(createBoard, {
     onSuccess: (data) => {
-      toast.success("Board Created")
+      toast.success("Board Created");
+      ref.current?.click();
+      router.push(`/board/${data.id}`);
     },
     onError: (error: string) => {
       toast.error(error);
@@ -37,7 +44,8 @@ const FormPopover = ({
   });
   const handleSubmit = (formData: FormData) => {
     const title = formData.get("title") as string;
-    execute({ title });
+    const image = formData.get("image") as string;
+    execute({ title, image });
   };
   return (
     <Popover>
@@ -52,6 +60,7 @@ const FormPopover = ({
           <p className="pb-4">Create Board</p>
           <form action={handleSubmit} className="flex flex-col gap-y-3">
             <div className="space-y-4 text-start">
+              <FormPicker id="image" errors={fieldErrors} />
               <FormInput
                 id="title"
                 label="Board Title"
@@ -66,6 +75,7 @@ const FormPopover = ({
           <Button
             className="h-auto w-auto p-2 top-2 right-2 absolute"
             variant={"ghost"}
+            ref={ref}
           >
             <X className="w-4 h-4" />
           </Button>

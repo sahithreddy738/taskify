@@ -6,6 +6,10 @@
         invalid_type_error:"Title is required",
     }).min(3,{
         message:"Title is too short"
+    }),
+    image:z.string({
+        required_error:"Image is Required",
+        invalid_type_error:"Image is Required"
     })
  });
 

@@ -1,3 +1,4 @@
+"use client";
 import { ActionState, FieldError } from "@/lib/create-safe-action";
 import { useCallback, useState } from "react";
 
