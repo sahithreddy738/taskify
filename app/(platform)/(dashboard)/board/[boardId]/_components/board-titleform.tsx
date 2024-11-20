@@ -25,8 +25,9 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   });
   const enableEditing = () => {
     setIsEditing(true);
-    inputRef.current?.focus();
-    inputRef.current?.select();
+    setTimeout(() => {
+      inputRef.current?.focus();
+    });
   };
   const disableEditing = () => {
     setIsEditing(false);
