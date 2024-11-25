@@ -11,7 +11,7 @@ import ListOptions from "./list-options";
 
 interface ListHeadProps {
   data: List;
-  onAddCard:()=>void
+  onAddCard:()=>void;
 }
 
 const ListHeader = ({ data,onAddCard }: ListHeadProps) => {
