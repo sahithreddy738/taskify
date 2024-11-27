@@ -18,6 +18,7 @@ interface FormTextAreaProps {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
+  defaultValue?:string;
 }
 
 const FormTextArea = forwardRef<HTMLTextAreaElement, FormTextAreaProps>(
@@ -33,6 +34,7 @@ const FormTextArea = forwardRef<HTMLTextAreaElement, FormTextAreaProps>(
       placeholder,
       required,
       disabled,
+      defaultValue
     },
     ref
   ) => {
@@ -47,6 +49,7 @@ const FormTextArea = forwardRef<HTMLTextAreaElement, FormTextAreaProps>(
             ></Label>
           ) : null}
           <Textarea
+          defaultValue={defaultValue}
             id={id}
             name={id}
             disabled={pending||disabled}
