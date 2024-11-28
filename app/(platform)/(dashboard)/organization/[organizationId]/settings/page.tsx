@@ -18,7 +18,7 @@ const SettingsPage = () => {
             }
           },
         }}
-        
+        routing="hash"
       />
     </div>
   );

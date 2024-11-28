@@ -6,6 +6,8 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { CopyList } from "./schema";
+import { createAuditLog } from "@/lib/create-audit-log";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
 export const handler = async (data: InputType): Promise<ReturnType> => {
   const { orgId, userId } = await auth();
@@ -32,10 +34,10 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     });
     if (!listToCopy) return { error: "Failed to create copy" };
     const listItem = await db.list.findFirst({
-       where:{
-        boardId
-       }   ,  
-        orderBy: {
+      where: {
+        boardId,
+      },
+      orderBy: {
         order: "desc",
       },
     });
@@ -43,19 +45,25 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
     list = await db.list.create({
       data: {
         boardId: listToCopy?.boardId,
-        title: listToCopy?.title+"- copy",
+        title: listToCopy?.title + "- copy",
         order: newOrder,
         cards: {
           createMany: {
             data: listToCopy.cards.map((card) => ({
               order: card.order,
               title: card.title,
-              description:card.description
+              description: card.description,
             })),
           },
         },
       },
       include: { cards: true },
+    });
+    await createAuditLog({
+      entityId: list.id,
+      entityTitle: list.title,
+      entityType: ENTITY_TYPE.LIST,
+      action: ACTION.CREATE,
     });
   } catch (error) {
     return {

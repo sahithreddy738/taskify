@@ -30,6 +30,9 @@ const CardDescription = ({ data }: CardDescriptionProps) => {
       queryClient.invalidateQueries({
         queryKey: ["card", data.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["card-logs", data.id],
+      });
       setIsEditing(false);
     },
     onError: (error) => {

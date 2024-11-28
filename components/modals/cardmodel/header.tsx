@@ -25,6 +25,9 @@ const CardHeader = ({ data }: CardHeaderProps) => {
       queryClient.invalidateQueries({
         queryKey: ["card", data.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["card-logs", data.id],
+      });
       toast.success("Card Title Updated");
       setTitle(data.title);
     },

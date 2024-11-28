@@ -50,7 +50,7 @@ const SideBar = ({ storageKey }: { storageKey: string }) => {
   };
   return (
     <>
-      <div className="font-medium flex items-center">
+      <div className="font-medium flex items-center mt-1">
         <span className="pl-4">Workspaces</span>
         <Button
           className="ml-auto"

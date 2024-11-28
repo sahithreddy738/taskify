@@ -71,6 +71,7 @@ const FormPicker = ({ id, errors }: FormPickerProps) => {
               disabled={pending}
               name={id}
               type="radio"
+              onChange={()=>{}}
               checked={selectedImageId===image.id}
               value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
             ></input>

@@ -8,14 +8,20 @@ import { useQuery } from "@tanstack/react-query";
 import CardHeader from "./header";
 import CardDescription from "./description";
 import CardActions from "./actions";
+import { AuditLog } from "@prisma/client";
+import Activity from "./activity";
 
 const CardModel = () => {
   const id = useCardModel((state) => state.id);
   const isOpen = useCardModel((state) => state.isOpen);
   const onClose = useCardModel((state) => state.onClose);
-  const { data: cardData, status } = useQuery<CardsWithList>({
+  const { data: cardData } = useQuery<CardsWithList>({
     queryKey: ["card", id],
     queryFn: () => fetcher(`/api/card/${id}`),
+  });
+  const { data: auditLogData } = useQuery<AuditLog[]>({
+    queryKey: ["card-logs", id],
+    queryFn: () => fetcher(`/api/card/${id}/logs`),
   });
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -33,11 +39,18 @@ const CardModel = () => {
               ) : (
                 <CardDescription data={cardData} />
               )}
+              {!auditLogData ? (
+                <Activity.skeleton />
+              ) : (
+                <Activity data={auditLogData} />
+              )}
             </div>
           </div>
-          {
-            !cardData?<CardActions.skelton/>:<CardActions data={cardData}/>
-          }
+          {!cardData ? (
+            <CardActions.skelton />
+          ) : (
+            <CardActions data={cardData} />
+          )}
         </div>
       </DialogContent>
     </Dialog>
