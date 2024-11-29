@@ -1,3 +1,4 @@
+export const MAX_FREE_BOARDS=5;
 export const defaultImages=[
     {
         "id": "_p0v9fK6pjM",

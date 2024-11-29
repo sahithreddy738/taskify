@@ -8,22 +8,38 @@ import { CreateSafeAction } from "@/lib/create-safe-action";
 import { CreateBoard } from "./schema";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { hasAvailable, incrementAvailableCount } from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId  } = await auth();
+  const { userId, orgId } = await auth();
   if (!userId || !orgId) {
     return {
       error: "Unauthorized",
+    };
+  }
+  const canCreate = await hasAvailable();
+  const isPro=await checkSubscription();
+  if (!canCreate && !isPro) {
+    return {
+      error:
+        "You have reached your limit of free boards.Please upgrade to create more.",
     };
   }
   const { title, image } = data;
   const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
     image.split("|");
   let board;
-  if(!imageId || !imageFullUrl || !imageThumbUrl || !imageUserName || !imageLinkHTML) {
+  if (
+    !imageId ||
+    !imageFullUrl ||
+    !imageThumbUrl ||
+    !imageUserName ||
+    !imageLinkHTML
+  ) {
     return {
-        error:"Failed to create check Fields"
-    }
+      error: "Failed to create check Fields",
+    };
   }
   try {
     board = await db.board.create({
@@ -34,9 +50,12 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         imageThumbUrl,
         imageFullUrl,
         imageLinkHTML,
-        imageUserName
+        imageUserName,
       },
     });
+    if(!isPro) {
+      await incrementAvailableCount();
+    }
     await createAuditLog({
       entityId: board.id,
       entityTitle: board.title,

@@ -24,9 +24,7 @@ const ActivityList = async () => {
       </p>
       <div className="flex flex-col gap-4">
         {auditLogs.map((log) => (
-          <>
-            <ActivityItem key={log.id} item={log} />
-          </>
+          <ActivityItem key={log.id} item={log} />
         ))}
       </div>
     </ol>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import CardModel from "../modals/cardmodel";
+import ProModal from "../modals/pro-modal";
 
 const ModelProvider = () => {
   const [isMounted,setIsMounted]=useState(false);
@@ -12,6 +13,7 @@ const ModelProvider = () => {
     return (
     <>
       <CardModel/>
+      <ProModal/>
     </>
   )
 }
