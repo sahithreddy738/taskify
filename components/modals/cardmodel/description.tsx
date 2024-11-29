@@ -48,15 +48,14 @@ const CardDescription = ({ data }: CardDescriptionProps) => {
       textAreaRef.current?.focus();
     });
   };
-  const onBlur = () => {
-    formRef.current?.requestSubmit();
-    disableEditing();
-  };
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") disableEditing();
   };
+  const onBlur=()=>{
+    formRef.current?.requestSubmit();
+    disableEditing()
+  }
   useEventListener("keydown", onKeyDown);
-  useOnClickOutside(textAreaRef, disableEditing);
   const onSubmit = (formData: FormData) => {
     const description = formData.get("description") as string;
     const boardId = params.boardId as string;
@@ -73,10 +72,11 @@ const CardDescription = ({ data }: CardDescriptionProps) => {
             <FormTextArea
               errors={fieldErrors}
               id="description"
-              onBlur={onBlur}
               ref={textAreaRef}
-              defaultValue={data.description}
               className="w-full mt-2"
+              defaultValue={data.description as string}
+              onBlur={onBlur}
+
             />
             <div className="flex items-center gap-x-2">
               <FormButton>Save</FormButton>
@@ -96,7 +96,7 @@ const CardDescription = ({ data }: CardDescriptionProps) => {
             onClick={enableEditing}
             className="min-h-[78px] bg-neutral-200 text-sm font-medium py-3 px-3.5 rounded-md"
           >
-            {data.description.length > 0
+            {data.description && data.description.length>0
               ? data.description
               : "Add a more detailed description..."}
           </div>

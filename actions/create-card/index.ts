@@ -45,7 +45,6 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
         title,
         listId,
         order: newOrder,
-        description: "",
       },
     });
     await createAuditLog({

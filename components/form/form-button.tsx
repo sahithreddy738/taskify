@@ -25,7 +25,6 @@ const FormButton = ({
 }: FormButtonProps) => {
   const { pending } = useFormStatus();
   return (
-    <div>
       <Button
       type="submit"
       size={"sm"}
@@ -33,7 +32,6 @@ const FormButton = ({
         className={cn(className, "")}
         variant={variant}
       >{children}</Button>
-    </div>
   );
 };
 

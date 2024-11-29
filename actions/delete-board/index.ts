@@ -21,7 +21,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   }
   const { id } = data;
   let board;
-  
+  const isPro=await checkSubscription();
   try {
     board = await db.board.delete({
       where: {
@@ -30,7 +30,9 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
       },
     });
 
+  if(!isPro) {
     await decrementAvailableCount();
+  }
 
     await createAuditLog({
       entityId: board.id,
