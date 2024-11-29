@@ -1,5 +1,4 @@
 import ActivityItem from "@/components/modals/cardmodel/activity-item";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";

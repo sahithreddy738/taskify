@@ -1,6 +1,6 @@
 "use server";
 
-import { ActionState, CreateSafeAction } from "@/lib/create-safe-action";
+import {  CreateSafeAction } from "@/lib/create-safe-action";
 import { InputType, ReturnType } from "./types";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";

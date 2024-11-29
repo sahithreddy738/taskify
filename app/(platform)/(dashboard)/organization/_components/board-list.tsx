@@ -5,7 +5,6 @@ import { getAvailableCount } from "@/lib/org-limit";
 import { checkSubscription } from "@/lib/subscription";
 import { MAX_FREE_BOARDS } from "@/utils/constants";
 import { auth } from "@clerk/nextjs/server";
-import { url } from "inspector";
 import { HelpCircle, User2 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";

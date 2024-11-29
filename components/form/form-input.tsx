@@ -61,4 +61,6 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   }
 );
 
+FormInput.displayName="FormInput";
+
 export default FormInput;

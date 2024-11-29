@@ -12,7 +12,7 @@ import { AlignLeft } from "lucide-react";
 import { useParams } from "next/navigation";
 import { ElementRef, useRef, useState } from "react";
 import { toast } from "sonner";
-import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import { useEventListener} from "usehooks-ts";
 
 interface CardDescriptionProps {
   data: CardsWithList;

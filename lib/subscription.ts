@@ -14,13 +14,16 @@ export const checkSubscription = async () => {
         orgId,
       },
     });
-    if (!orgSubscription) {
+    if (!orgSubscription || !orgSubscription.stripePriceId) {
       return false;
     }
-    const isValid =
-      orgSubscription.stripePriceId &&
-      orgSubscription.stripeCurrentPeriodEnd?.getTime()! + DAYS_IN_MS >
-        Date.now();
-    return !!isValid;
+  
+    const currentPeriodEnd = orgSubscription.stripeCurrentPeriodEnd;
+    if (!currentPeriodEnd) {
+      return false;
+    }
+  
+    const isValid = currentPeriodEnd.getTime() + DAYS_IN_MS > Date.now();
+    return isValid;
 
 };

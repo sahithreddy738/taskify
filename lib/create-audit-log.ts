@@ -33,7 +33,7 @@ export const createAuditLog = async ({
         userName: `${user?.firstName} ${user?.lastName}`,
       },
     });
-  } catch (error) {
+  } catch {
     return {error:"Failed to auditLog"}
   }
 };

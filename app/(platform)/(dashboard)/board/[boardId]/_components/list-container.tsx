@@ -4,7 +4,7 @@ import { ListWithCards } from "@/types";
 import ListForm from "./list-form";
 import { useEffect, useState } from "react";
 import ListItem from "./list-item";
-import { DragDropContext, Droppable } from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
 import { useAction } from "@/hooks/use-action";
 import { updateListOrder } from "@/actions/update-list-order";
 import { toast } from "sonner";
@@ -25,7 +25,7 @@ function redorder<T>(lists: T[], startIndex: number, endIndex: number) {
 const ListContainer = ({ data, boardId }: ListContainerProps) => {
   const [orderedData, setOrderedData] = useState(data);
   const { execute: executeUpdateListOrder } = useAction(updateListOrder, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("List reordered");
     },
     onError: (message) => {
@@ -33,7 +33,7 @@ const ListContainer = ({ data, boardId }: ListContainerProps) => {
     },
   });
   const { execute: executeCardListOrder } = useAction(cardListOrder, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Cards reordered");
     },
     onError: (message) => {
@@ -44,7 +44,7 @@ const ListContainer = ({ data, boardId }: ListContainerProps) => {
     setOrderedData(data);
   }, [data]);
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     const { source, destination, type } = result;
     if (!destination) return;
     if (
@@ -62,7 +62,7 @@ const ListContainer = ({ data, boardId }: ListContainerProps) => {
       executeUpdateListOrder({ lists: redorderedData, boardId });
     }
     if (type === "card") {
-      let newOrderedData = [...orderedData];
+      const newOrderedData = [...orderedData];
       const sourceList = newOrderedData.find(
         (list) => list.id === source.droppableId
       );
@@ -98,11 +98,6 @@ const ListContainer = ({ data, boardId }: ListContainerProps) => {
           boardId,
           listId: destinationList.id,
         });
-        // executeCardListOrder({
-        //   cards:sourceList.cards,
-        //   boardId,
-        //   listId:sourceList.id
-        // })
       }
     }
   };

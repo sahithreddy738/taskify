@@ -11,6 +11,20 @@ import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
 import FormErrors from "./form-errors";
 
+interface UnsplashImage {
+  id: string;
+  urls: {
+    thumb: string;
+    full: string;
+  };
+  links: {
+    html: string;
+  };
+  user: {
+    name: string;
+  };
+}
+
 interface FormPickerProps {
   id: string;
   errors?: Record<string, string[] | undefined>;
@@ -18,9 +32,9 @@ interface FormPickerProps {
 
 const FormPicker = ({ id, errors }: FormPickerProps) => {
   const { pending } = useFormStatus();
-  const [images, setImages] = useState<Array<Record<string, any>>>([]);
+  const [images, setImages] = useState<UnsplashImage[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedImageId, setSelectedImageId] = useState(null);
+  const [selectedImageId, setSelectedImageId] = useState<string>("");
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -30,7 +44,7 @@ const FormPicker = ({ id, errors }: FormPickerProps) => {
           count: 9,
         });
         if (res && res.response) {
-          setImages(res.response as Array<Record<string, any>>);
+          setImages(res.response as UnsplashImage[]);
         } else {
           toast.error("Failed to get images from unsplash");
         }

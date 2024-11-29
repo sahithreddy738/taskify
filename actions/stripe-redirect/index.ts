@@ -9,7 +9,7 @@ import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { revalidatePath } from "next/cache";
 
-export const handler = async (data: InputType): Promise<ReturnType> => {
+export const handler = async (): Promise<ReturnType> => {
   const { orgId, userId } = await auth();
   const user = await currentUser();
   if (!userId || !orgId) {

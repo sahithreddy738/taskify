@@ -85,5 +85,6 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
     );
   }
 );
+CardForm.displayName="CardForm";
 
 export default CardForm;

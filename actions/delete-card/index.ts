@@ -6,7 +6,6 @@ import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { DeleteCard } from "./schema";
-import { redirect } from "next/navigation";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
@@ -44,7 +43,7 @@ export const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   revalidatePath(`/board/${boardId}`);
-  return {data:card}
+  return { data: card };
 };
 
 export const deleteCard = CreateSafeAction(DeleteCard, handler);
