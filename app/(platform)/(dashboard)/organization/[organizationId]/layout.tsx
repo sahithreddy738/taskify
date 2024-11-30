@@ -4,7 +4,7 @@ import { startCase } from "lodash";
 
 
 
-export async function generateMetaData() {
+export async function generateMetadata() {
   const {orgSlug}=await auth();
   return {
     title:startCase(orgSlug || "organization")
