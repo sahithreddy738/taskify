@@ -4,7 +4,7 @@ import { startCase } from "lodash";
 import { notFound, redirect } from "next/navigation";
 import BoardNavBar from "./_components/board-navbar";
 
-export async function generateMetaData({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ boardId: string }>;
